@@ -3,6 +3,7 @@
 namespace Bastas\Form\HtmlElement;
 
 use Bastas\Form\HtmlElement;
+use Bastas\Validator\ValidatorInterface;
 
 /**
  * Class FormElement
@@ -18,6 +19,11 @@ class FormElement extends HtmlElement
      * @var string
      */
     private $assignedData = '';
+
+    /**
+     * @var array
+     */
+    private $validators = [];
 
     /**
      * FormElement constructor.
@@ -38,6 +44,7 @@ class FormElement extends HtmlElement
      */
     public function assignData($assignedData)
     {
+        // TODO Apply filters if any. Then assign data.
         $this->assignedData = $assignedData;
     }
 
@@ -63,5 +70,21 @@ class FormElement extends HtmlElement
     public function getFormElementAttributes() : array
     {
         return $this->elementAttributes;
+    }
+
+    /**
+     * @param ValidatorInterface $validator
+     */
+    public function addValidator(ValidatorInterface $validator)
+    {
+        $this->validators[] = $validator;
+    }
+
+    /**
+     * @return array
+     */
+    public function getValidators() : array
+    {
+        return $this->validators;
     }
 }

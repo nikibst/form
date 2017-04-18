@@ -2,10 +2,19 @@
     "name": "bastas/form",
     "description": "PHP Form Component",
     "type": "library",
+    "require": {
+        "bastas/validator": "dev-master"
+    },
     "require-dev": {
         "phpunit/phpunit": "^6.0",
         "squizlabs/php_codesniffer": "2.*"
     },
+    "repositories": [
+        {
+            "url": "https://github.com/nikibst/validator.git",
+            "type": "git"
+        }
+    ],
     "authors": [
         {
             "name": "Nikitas Bastas",

@@ -14,6 +14,10 @@ class Form extends HtmlElement
      * @var array
      */
     private $formElements = [];
+    /**
+     * @var array
+     */
+    private $errorMessages = [];
 
     /**
      * @param FormElement $formElement
@@ -60,10 +64,40 @@ class Form extends HtmlElement
     }
 
     /**
-     *
+     * @return bool
      */
-    public function isValid()
+    public function isValid() : bool
     {
-        //TODO Implement with the Bastas\Validator Component
+        $formElements = $this->getFormElements();
+
+        if (empty($formElements)) {
+            return true;
+        }
+
+        foreach ($formElements as $formElement) {
+            if (empty($formElement->getValidators())) {
+                continue;
+            }
+
+            foreach ($formElement->getValidators() as $validator) {
+                if (!$validator->isValid($formElement->getData())) {
+                    $this->errorMessages[$formElement->getElementName()][] = $validator->getErrorMessage();
+                }
+            }
+        }
+
+        if (empty($this->errorMessages)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrorMessages() : array
+    {
+        return $this->errorMessages;
     }
 }
